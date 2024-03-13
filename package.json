@@ -1,0 +1,23 @@
+{
+    "name": "com.deiveex.unity-utilities",
+    "version": "1.0.0",
+    "displayName": "Unity Utilities",
+    "description": "A set of useful utilities scripts for Unity",
+    "unity": "2022.3",
+    "unityRelease": "16f1",
+    "documentationUrl": "",
+    "changelogUrl": "",
+    "licensesUrl": "",
+    "dependencies": {
+        
+    },
+    "keywords": [
+        "utility",
+        "useful"
+    ],
+    "author": {
+        "name": "Felipe Carmo Cavaco",
+        "email": "felipe.carmo.cavaco@gmail.com",
+        "url": "https://github.com/DeiveEx"
+    }
+}
