@@ -38,5 +38,10 @@ namespace DeiveEx.Utilities
 
             return Physics.BoxCast(center, collider.size / 2f, direction, out hitInfo, orientation, maxDistance, layerMask, queryTriggerInteraction);
         }
+
+        public static bool IsLayerInLayerMask(int layer, LayerMask layerMask)
+        {
+            return (layerMask & (1 << layer)) != 0;
+        }
     }
 }
