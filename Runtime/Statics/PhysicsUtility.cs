@@ -4,8 +4,8 @@ using UnityEngine;
 namespace DeiveEx.Utilities
 {
     public static class PhysicsUtility
-    {   
-        public static bool CapsuleCast(CapsuleCollider collider, Vector3 direction, out RaycastHit hitInfo, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
+    {
+        public static bool CapsuleCast(CapsuleCollider collider, float radius, Vector3 direction, out RaycastHit hitInfo, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
         {
             Transform capsuleTransform = collider.transform;
             Vector3 center = capsuleTransform.position + collider.center;
@@ -22,21 +22,34 @@ namespace DeiveEx.Utilities
             Vector3 p1 = center + capsuleDirection * capsuleHalfHeight;
             Vector3 p2 = center - capsuleDirection * capsuleHalfHeight;
 
-            return Physics.CapsuleCast(p1, p2, collider.radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
+            return Physics.CapsuleCast(p1, p2, radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
+        }
+        
+        public static bool CapsuleCast(CapsuleCollider collider, Vector3 direction, out RaycastHit hitInfo, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
+        {
+            return CapsuleCast(collider, collider.radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
+        }
+        
+        public static bool SphereCast(SphereCollider collider, float radius, Vector3 direction, out RaycastHit hitInfo, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
+        {
+            Vector3 center = collider.center;
+            return Physics.SphereCast(center, radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
         }
         
         public static bool SphereCast(SphereCollider collider, Vector3 direction, out RaycastHit hitInfo, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
         {
+            return SphereCast(collider, collider.radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
+        }
+        
+        public static bool BoxCast(BoxCollider collider, Vector3 size, Vector3 direction, out RaycastHit hitInfo, Quaternion orientation, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
+        {
             Vector3 center = collider.center;
-
-            return Physics.SphereCast(center, collider.radius, direction, out hitInfo, maxDistance, layerMask, queryTriggerInteraction);
+            return Physics.BoxCast(center, size / 2f, direction, out hitInfo, orientation, maxDistance, layerMask, queryTriggerInteraction);
         }
         
         public static bool BoxCast(BoxCollider collider, Vector3 direction, out RaycastHit hitInfo, Quaternion orientation, float maxDistance, LayerMask layerMask, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal)
         {
-            Vector3 center = collider.center;
-
-            return Physics.BoxCast(center, collider.size / 2f, direction, out hitInfo, orientation, maxDistance, layerMask, queryTriggerInteraction);
+            return BoxCast(collider, collider.size / 2f, direction, out hitInfo, orientation, maxDistance, layerMask, queryTriggerInteraction);
         }
 
         public static bool IsLayerInLayerMask(int layer, LayerMask layerMask)
