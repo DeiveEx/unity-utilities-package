@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using UnityEngine;
 
 namespace DeiveEx.Utilities
 {
@@ -33,6 +35,22 @@ namespace DeiveEx.Utilities
 						 baseType.IsAssignableFrom(x))); //If the base type is an interface
 
 				return validTypes;
+			}
+
+			public static IDictionary<string, object> GetAllFieldsValues<T>(T target, BindingFlags flags = BindingFlags.Instance | BindingFlags.Public)
+			{
+				var type = typeof(T);
+				var fields = type.GetFields(flags);
+
+				Dictionary<string, object> fieldValueDictionary = new();
+				
+				foreach (var fieldInfo in fields)
+				{
+					var value = fieldInfo.GetValue(target);
+					fieldValueDictionary.Add(fieldInfo.Name, value);
+				}
+
+				return fieldValueDictionary;
 			}
 		}
 	}
