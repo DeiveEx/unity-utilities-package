@@ -47,7 +47,7 @@ namespace DeiveEx.Utilities
 			}
 	#endif
 			
-			public static async Task Delay(int milliseconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
+			public static async Task DelayMilliseconds(int milliseconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
 			{
 				float elapsedTime = 0;
 				float seconds = milliseconds / 1000f;
@@ -63,6 +63,11 @@ namespace DeiveEx.Utilities
 						return;
 					}
 				}
+			}
+
+			public static async Task DelaySeconds(float seconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
+			{
+				await DelayMilliseconds((int) (seconds * 1000), ignoreTimeScale, cancellationTokenSource);
 			}
 		}		
 	}
