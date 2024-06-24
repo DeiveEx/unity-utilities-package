@@ -24,35 +24,32 @@ namespace DeiveEx.Utilities
 
     #endregion
 
-    public static partial class UtilityServices
-    {
-        public class MathService
-        {   
-            public static Vector3 GetSwizzeledVector(Vector3 original, SwizzleType swizzleType)
+    public class MathService
+    {   
+        public Vector3 GetSwizzeledVector(Vector3 original, SwizzleType swizzleType)
+        {
+            switch (swizzleType)
             {
-                switch (swizzleType)
-                {
-                    case SwizzleType.XYZ:
-                        return original;
+                case SwizzleType.XYZ:
+                    return original;
                     
-                    case SwizzleType.XZY:
-                        return new Vector3(original.x, original.z, original.y);
+                case SwizzleType.XZY:
+                    return new Vector3(original.x, original.z, original.y);
                     
-                    case SwizzleType.YXZ:
-                        return new Vector3(original.y, original.x, original.z);
+                case SwizzleType.YXZ:
+                    return new Vector3(original.y, original.x, original.z);
                     
-                    case SwizzleType.YZX:
-                        return new Vector3(original.y, original.z, original.y);
+                case SwizzleType.YZX:
+                    return new Vector3(original.y, original.z, original.y);
                     
-                    case SwizzleType.ZXY:
-                        return new Vector3(original.z, original.x, original.y);
+                case SwizzleType.ZXY:
+                    return new Vector3(original.z, original.x, original.y);
                     
-                    case SwizzleType.ZYX:
-                        return new Vector3(original.z, original.y, original.x);
+                case SwizzleType.ZYX:
+                    return new Vector3(original.z, original.y, original.x);
                     
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(swizzleType), swizzleType, null);
-                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(swizzleType), swizzleType, null);
             }
         }
     }

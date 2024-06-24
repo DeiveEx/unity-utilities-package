@@ -7,68 +7,62 @@ using UnityEditor;
 
 namespace DeiveEx.Utilities
 {
-	public static partial class UtilityServices
+	public class ThreadingService
 	{
-	#if UNITY_EDITOR
-		[InitializeOnLoad] //Initializes this class when Unity does a Domain Reload
-	#endif
-		public static class ThreadingService
+		private static CancellationTokenSource _quitSource;
+		private static SynchronizationContext _unityContext;
+
+		public CancellationToken QuitToken => _quitSource.Token;
+		public SynchronizationContext UnityContext => _unityContext;
+
+		public ThreadingService()
 		{
-			static readonly CancellationTokenSource quitSource;
+			_quitSource = new CancellationTokenSource();
+		}
 
-			public static CancellationToken QuitToken { get; }
-			public static SynchronizationContext UnityContext { get; private set; }
+#if UNITY_EDITOR
+		[InitializeOnLoadMethod] //Automatically calls this method when Unity does a Domain Reload during edit mode
+#endif
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] //Automatically calls this methods during runtime on the specified load type
+		static void MainThreadInitialize()
+		{
+			//Whenever Unity quits or exits play mode, we call "Cancel" on the Cancellation token so Tasks can cancel themselves
+			_unityContext = SynchronizationContext.Current;
+			Application.quitting += _quitSource.Cancel;
+#if UNITY_EDITOR
+			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+#endif
+		}
 
-			static ThreadingService()
+#if UNITY_EDITOR
+		static void OnPlayModeStateChanged(PlayModeStateChange state)
+		{
+			if (state == PlayModeStateChange.ExitingPlayMode)
+				_quitSource.Cancel();
+		}
+#endif
+		
+		public async Task DelayMilliseconds(int milliseconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
+		{
+			float elapsedTime = 0;
+			float seconds = milliseconds / 1000f;
+
+			while (elapsedTime < seconds)
 			{
-				quitSource = new CancellationTokenSource();
-				QuitToken = quitSource.Token;
-			}
+				elapsedTime += ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+				await Task.Yield();
 
-	#if UNITY_EDITOR
-			[InitializeOnLoadMethod] //Automatically calls this method when Unity does a Domain Reload during edit mode
-	#endif
-			[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] //Automatically calls this methods during runtime on the specified load type
-			static void MainThreadInitialize()
-			{
-				//Whenever Unity quits or exits play mode, we call "Cancel" on the Cancellation token so Tasks can cancel themselves
-				UnityContext = SynchronizationContext.Current;
-				Application.quitting += quitSource.Cancel;
-	#if UNITY_EDITOR
-				EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-	#endif
-			}
-
-	#if UNITY_EDITOR
-			static void OnPlayModeStateChanged(PlayModeStateChange state)
-			{
-				if (state == PlayModeStateChange.ExitingPlayMode)
-					quitSource.Cancel();
-			}
-	#endif
-			
-			public static async Task DelayMilliseconds(int milliseconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
-			{
-				float elapsedTime = 0;
-				float seconds = milliseconds / 1000f;
-
-				while (elapsedTime < seconds)
+				if (cancellationTokenSource != null &&
+				    cancellationTokenSource.IsCancellationRequested)
 				{
-					elapsedTime += ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
-					await Task.Yield();
-
-					if (cancellationTokenSource != null &&
-					    cancellationTokenSource.IsCancellationRequested)
-					{
-						return;
-					}
+					return;
 				}
 			}
+		}
 
-			public static async Task DelaySeconds(float seconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
-			{
-				await DelayMilliseconds((int) (seconds * 1000), ignoreTimeScale, cancellationTokenSource);
-			}
-		}		
-	}
+		public async Task DelaySeconds(float seconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
+		{
+			await DelayMilliseconds((int) (seconds * 1000), ignoreTimeScale, cancellationTokenSource);
+		}
+	}		
 }

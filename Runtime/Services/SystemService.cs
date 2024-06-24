@@ -3,46 +3,43 @@ using UnityEngine;
 
 namespace DeiveEx.Utilities
 {
-    public static partial class UtilityServices
+    public class SystemService
     {
-        public static class SystemService
+        public bool HasCommandLineArgument(string key)
         {
-            public static bool HasCommandLineArgument(string key)
-            {
-                var args = Environment.GetCommandLineArgs();
+            var args = Environment.GetCommandLineArgs();
             
-                for (int i = 0; i < args.Length; i++)
-                {
-                    if (args[i] == key)
-                        return true;
-                }
-
-                return false;
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] == key)
+                    return true;
             }
+
+            return false;
+        }
             
-            public static bool GetCommandLineArgument(string key, out string value)
+        public bool GetCommandLineArgument(string key, out string value)
+        {
+            var args = Environment.GetCommandLineArgs();
+            value = "";
+            
+            for (int i = 0; i < args.Length; i++)
             {
-                var args = Environment.GetCommandLineArgs();
-                value = "";
-            
-                for (int i = 0; i < args.Length; i++)
+                if (args[i] == key)
                 {
-                    if (args[i] == key)
+                    if (args.Length > i)
                     {
-                        if (args.Length > i)
-                        {
-                            value = args[i + 1];
-                            return true;
-                        }
-                        else
-                        {
-                            Debug.LogError($"{key} has no value!");
-                        }
+                        value = args[i + 1];
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.LogError($"{key} has no value!");
                     }
                 }
-
-                return false;
             }
-        }        
-    }
+
+            return false;
+        }
+    }        
 }

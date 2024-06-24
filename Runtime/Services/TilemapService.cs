@@ -5,11 +5,9 @@ using UnityEngine.Tilemaps;
 
 namespace DeiveEx.Utilities
 {
-    public static partial class UtilityServices
-    {
-        public static class TilemapService
+    public class TilemapService
         {
-            public static void FillArea(UnityEngine.Tilemaps.Tilemap tilemap, IEnumerable<Vector3Int> positions, TileBase tile)
+            public void FillArea(UnityEngine.Tilemaps.Tilemap tilemap, IEnumerable<Vector3Int> positions, TileBase tile)
             {
                 foreach (var position in positions)
                 {
@@ -17,7 +15,7 @@ namespace DeiveEx.Utilities
                 }
             }
             
-            public static bool IsAreaFree(UnityEngine.Tilemaps.Tilemap tilemap, Vector3Int start, int regionSize)
+            public bool IsAreaFree(UnityEngine.Tilemaps.Tilemap tilemap, Vector3Int start, int regionSize)
             {
                 for (int x = start.x; x < start.x + regionSize; x++)
                 {
@@ -33,7 +31,7 @@ namespace DeiveEx.Utilities
                 return true;
             }
             
-            public static List<Vector3Int> GetSquare(Vector3Int start, int size)
+            public List<Vector3Int> GetSquare(Vector3Int start, int size)
             {
                 var positions = new List<Vector3Int>();
 
@@ -49,7 +47,7 @@ namespace DeiveEx.Utilities
                 return positions;
             }
             
-            public static List<Vector3Int> GetCircle(Vector3Int start, int size)
+            public List<Vector3Int> GetCircle(Vector3Int start, int size)
             {
                 var center = start + (Vector3Int.one * size / 2);
                 center.z = 0;
@@ -73,7 +71,7 @@ namespace DeiveEx.Utilities
                 return positions;
             }
 
-            public static List<Vector3Int> GetLine(Vector3Int start, Vector3Int end, int thickness)
+            public List<Vector3Int> GetLine(Vector3Int start, Vector3Int end, int thickness)
             {
                 HashSet<Vector3Int> positions = new();
 
@@ -108,5 +106,4 @@ namespace DeiveEx.Utilities
                 return positions.ToList();
             }
         }
-    }
 }

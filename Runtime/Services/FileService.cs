@@ -4,45 +4,42 @@ using System.IO;
 
 namespace DeiveEx.Utilities
 {
-    public static partial class UtilityServices
+    public class FileService
     {
-        public static class FileService
+        public IList<string> GetFilePathsRecursive(string startPath, Func<string, bool> isFileValid)
         {
-            public static IList<string> GetFilePathsRecursive(string startPath, Func<string, bool> isFileValid)
+            List<string> paths = new();
+
+            if (Directory.Exists(startPath))
             {
-                List<string> paths = new();
+                var files = Directory.GetFiles(startPath);
 
-                if (Directory.Exists(startPath))
+                foreach (var filePath in files)
                 {
-                    var files = Directory.GetFiles(startPath);
-
-                    foreach (var filePath in files)
-                    {
-                        if(isFileValid(filePath))
-                            paths.Add(filePath);
-                    }
+                    if(isFileValid(filePath))
+                        paths.Add(filePath);
+                }
 				    
-                    var directories = Directory.GetDirectories(startPath);
+                var directories = Directory.GetDirectories(startPath);
 
                     
-                    foreach (var directoryPath in directories)
-                    {
-                        paths.AddRange(GetFilePathsRecursive(directoryPath, isFileValid));
-                    }
+                foreach (var directoryPath in directories)
+                {
+                    paths.AddRange(GetFilePathsRecursive(directoryPath, isFileValid));
                 }
+            }
 			    
-                return paths;
-            }
+            return paths;
+        }
             
-            public static IList<string> GetFilesWithExtensionRecursive(string startPath, string fileExtension)
-            {
-                return GetFilePathsRecursive(startPath, filePath => Path.GetExtension(filePath) == fileExtension);
-            }
+        public IList<string> GetFilesWithExtensionRecursive(string startPath, string fileExtension)
+        {
+            return GetFilePathsRecursive(startPath, filePath => Path.GetExtension(filePath) == fileExtension);
+        }
             
-            public static IList<string> GetFilesWithNameRecursive(string startPath, string fileName)
-            {
-                return GetFilePathsRecursive(startPath, filePath => Path.GetFileName(filePath) == fileName);
-            }
+        public IList<string> GetFilesWithNameRecursive(string startPath, string fileName)
+        {
+            return GetFilePathsRecursive(startPath, filePath => Path.GetFileName(filePath) == fileName);
         }
     }
 }

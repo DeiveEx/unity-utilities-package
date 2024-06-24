@@ -3,13 +3,10 @@ using System.Linq;
 
 namespace DeiveEx.Utilities
 {
-    public static partial class UtilityServices
+    public class CollectionService
     {
-        public static class CollectionService
-        {
-            public static bool IsNullOrEmpty<T>(IEnumerable<T> data) {
-                return data == null || !data.Any();
-            }
+        public bool IsNullOrEmpty<T>(IEnumerable<T> data) {
+            return data == null || !data.Any();
         }
     }
 }
