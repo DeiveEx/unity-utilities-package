@@ -20,7 +20,6 @@ namespace DeiveEx.Utilities
         public static SystemService SystemService { get; }
         public static ThreadingService ThreadingService { get; }
         
-        
         static UtilityServices()
         {
             BitwiseService = new();

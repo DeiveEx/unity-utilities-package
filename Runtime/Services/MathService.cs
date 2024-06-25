@@ -52,5 +52,11 @@ namespace DeiveEx.Utilities
                     throw new ArgumentOutOfRangeException(nameof(swizzleType), swizzleType, null);
             }
         }
+        
+        public Vector3 QuadraticBezier (Vector3 p0, Vector3 p2, Vector3 middlePoint, float t) {
+            t = Mathf.Clamp01(t);
+            float oneMinusT = 1f - t;
+            return oneMinusT * oneMinusT * p0 + 2f * oneMinusT * t * middlePoint + t * t * p2;
+        }
     }
 }

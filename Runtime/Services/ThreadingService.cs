@@ -9,16 +9,12 @@ namespace DeiveEx.Utilities
 {
 	public class ThreadingService
 	{
+		private static bool _initialized;
 		private static CancellationTokenSource _quitSource;
 		private static SynchronizationContext _unityContext;
 
 		public CancellationToken QuitToken => _quitSource.Token;
 		public SynchronizationContext UnityContext => _unityContext;
-
-		public ThreadingService()
-		{
-			_quitSource = new CancellationTokenSource();
-		}
 
 #if UNITY_EDITOR
 		[InitializeOnLoadMethod] //Automatically calls this method when Unity does a Domain Reload during edit mode
@@ -28,6 +24,8 @@ namespace DeiveEx.Utilities
 		{
 			//Whenever Unity quits or exits play mode, we call "Cancel" on the Cancellation token so Tasks can cancel themselves
 			_unityContext = SynchronizationContext.Current;
+			_quitSource = new CancellationTokenSource();
+			
 			Application.quitting += _quitSource.Cancel;
 #if UNITY_EDITOR
 			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
