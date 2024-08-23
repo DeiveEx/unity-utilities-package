@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace DeiveEx.Utilities
@@ -33,6 +35,27 @@ namespace DeiveEx.Utilities
                         break;
                 }
             }
+        }
+
+        public string GetScenePath(Transform transform)
+        {
+            var current = transform;
+            var inScenePath = new List<string> { current.name };
+            
+            while (current != transform.root)
+            {
+                current = current.parent;
+                inScenePath.Add(current.name);
+            }
+            
+            var sb = new StringBuilder(transform.gameObject.scene.name);
+            
+            foreach (var item in Enumerable.Reverse(inScenePath))
+            {
+                sb.Append($"\\{item}");
+            }
+            
+            return sb.ToString().TrimStart('\\');
         }
     }
 }
