@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -61,6 +62,17 @@ namespace DeiveEx.Utilities
 		public async Task DelaySeconds(float seconds, bool ignoreTimeScale = false, CancellationTokenSource cancellationTokenSource = null)
 		{
 			await DelayMilliseconds((int) (seconds * 1000), ignoreTimeScale, cancellationTokenSource);
+		}
+
+		public async Task WaitWhile(Func<bool> condition)
+		{
+			while (condition())
+			{
+				await Task.Yield();
+
+				if (_quitSource.IsCancellationRequested)
+					return;
+			}
 		}
 	}		
 }
