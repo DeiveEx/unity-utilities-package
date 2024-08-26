@@ -9,29 +9,16 @@ namespace DeiveEx.Utilities
 #endif
     public static class UtilityServices
     {
-        public static BitwiseService BitwiseService { get; }
-        public static TilemapService TilemapService { get; }
-        public static CollectionService CollectionService { get; }
-        public static FileService FileService { get; }
-        public static GameObjectService GameObjectService { get; }
-        public static PhysicsService PhysicsService { get; }
-        public static MathService MathService { get; }
+        public static BitwiseService BitwiseService { get; } = new();
+        public static TilemapService TilemapService { get; } = new();
+        public static CollectionService CollectionService { get; } = new();
+        public static FileService FileService { get; } = new();
+        public static GameObjectService GameObjectService { get; } = new();
+        public static PhysicsService PhysicsService { get; } = new();
+        public static MathService MathService { get; } = new();
         public static ReflectionService ReflectionService { get; }
-        public static SystemService SystemService { get; }
-        public static ThreadingService ThreadingService { get; }
-        
-        static UtilityServices()
-        {
-            BitwiseService = new();
-            TilemapService = new();
-            CollectionService = new();
-            FileService = new();
-            GameObjectService = new();
-            PhysicsService = new();
-            MathService = new();
-            ReflectionService = new();
-            SystemService = new();
-            ThreadingService = new();
-        }
+        public static SystemService SystemService { get; } = new();
+        public static ThreadingService ThreadingService { get; } = new();
+        public static UiService uiService { get; } = new();
     }
 }
