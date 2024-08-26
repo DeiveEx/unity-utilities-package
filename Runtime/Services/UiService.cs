@@ -10,7 +10,7 @@ namespace DeiveEx.Utilities
         #region Grid Layout Group
         
         /// <inheritdoc cref="SetupGridNavigation{T}(UnityEngine.UI.GridLayoutGroup,System.Collections.Generic.List{T},UnityEngine.UI.Selectable,UnityEngine.UI.Selectable,UnityEngine.UI.Selectable,UnityEngine.UI.Selectable)"/>
-        public static void SetupGridNavigation<T>(
+        public void SetupGridNavigation<T>(
             GridLayoutGroup gridLayout, 
             List<T> collection,
             Selectable onUp = null,
@@ -40,7 +40,7 @@ namespace DeiveEx.Utilities
         /// <param name="onLeft">What should be selected when pressing "left" while being on the first column row</param>
         /// <param name="onRight">What should be selected when pressing "right" while being on the last column</param>
         /// <typeparam name="T">The type of selectable (Selectable, Button, etc.)</typeparam>
-        public static void SetupGridNavigation<T>(
+        public void SetupGridNavigation<T>(
             GridLayoutGroup gridLayout, 
             List<T> collection, 
             Func<Vector2Int, Selectable> onUp,
@@ -74,7 +74,7 @@ namespace DeiveEx.Utilities
             }
         }
 
-        private static void SetupNavigationForGridCell<T>(
+        private void SetupNavigationForGridCell<T>(
             List<T> collection,
             Vector2Int gridPos,
             Vector2Int gridSize,
@@ -171,7 +171,7 @@ namespace DeiveEx.Utilities
             selectable.navigation = navigation;
         }
 
-        public static Vector2Int GetGridSize(GridLayoutGroup gridLayout, int itemAmount)
+        public Vector2Int GetGridSize(GridLayoutGroup gridLayout, int itemAmount)
         {
             Vector2Int gridSize = new();
             
@@ -189,7 +189,7 @@ namespace DeiveEx.Utilities
             return gridSize;
         }
 
-        public static Vector2Int GetGridPositionForIndex(GridLayoutGroup gridLayout, Vector2Int gridSize, int index)
+        public Vector2Int GetGridPositionForIndex(GridLayoutGroup gridLayout, Vector2Int gridSize, int index)
         {
             Vector2Int gridPos = new();
 
@@ -208,7 +208,7 @@ namespace DeiveEx.Utilities
             return gridPos;
         }
         
-        public static int GetIndexFromGridPos(GridLayoutGroup gridLayout, Vector2Int gridSize, Vector2Int gridPos)
+        public int GetIndexFromGridPos(GridLayoutGroup gridLayout, Vector2Int gridSize, Vector2Int gridPos)
         {
             if(gridLayout.startAxis == GridLayoutGroup.Axis.Horizontal)
                 return (gridPos.y * gridSize.x) + gridPos.x;
@@ -223,7 +223,7 @@ namespace DeiveEx.Utilities
         /// <param name="rightGrid">The grid we want to travel to</param>
         /// <param name="rightCollection">The selectable collection of the grid we want to travel to</param>
         /// <returns>The selectable in the right grid that has the closest grid position from the sourceGridPos</returns>
-        public static Selectable GetConnectionBetweenGridsOnRightInput(
+        public Selectable GetConnectionBetweenGridsOnRightInput(
             Vector2Int sourceGridPos,
             GridLayoutGroup rightGrid,
             List<Selectable> rightCollection
@@ -260,7 +260,7 @@ namespace DeiveEx.Utilities
             return rightCollection[slotIndex];
         }
         
-        public static Selectable GetConnectionBetweenGridsOnLeftInput(
+        public Selectable GetConnectionBetweenGridsOnLeftInput(
             Vector2Int sourceGridPos,
             GridLayoutGroup leftGrid,
             List<Selectable> leftCollection
@@ -283,7 +283,7 @@ namespace DeiveEx.Utilities
             return leftCollection[actualSlotIndex];
         }
         
-        public static Selectable GetConnectionBetweenGridsOnDownInput(
+        public Selectable GetConnectionBetweenGridsOnDownInput(
             Vector2Int sourceGridPos,
             GridLayoutGroup downGrid,
             List<Selectable> downCollection
@@ -320,7 +320,7 @@ namespace DeiveEx.Utilities
             return downCollection[slotIndex];
         }
         
-        public static Selectable GetConnectionBetweenGridsOnUpInput(
+        public Selectable GetConnectionBetweenGridsOnUpInput(
             Vector2Int sourceGridPos,
             GridLayoutGroup upGrid,
             List<Selectable> upCollection
@@ -348,7 +348,7 @@ namespace DeiveEx.Utilities
 
         #region Vertical Layout Group
         
-        public static void SetupVerticalLayoutNavigation<T>(
+        public void SetupVerticalLayoutNavigation<T>(
             List<T> collection,
             Func<Selectable> onUp = null,
             Func<Selectable> onDown = null,
@@ -366,7 +366,7 @@ namespace DeiveEx.Utilities
             );
         }
         
-        public static void SetupVerticalLayoutNavigation<T>(
+        public void SetupVerticalLayoutNavigation<T>(
             List<T> collection,
             Selectable onUp = null,
             Selectable onDown = null,
@@ -402,7 +402,7 @@ namespace DeiveEx.Utilities
 
         #region Horizontal Layout Group
 
-        public static void SetupHorizontalLayoutNavigation<T>(
+        public void SetupHorizontalLayoutNavigation<T>(
             List<T> collection,
             Func<Selectable> onUp = null,
             Func<Selectable> onDown = null,
@@ -420,7 +420,7 @@ namespace DeiveEx.Utilities
             );
         }
         
-        public static void SetupHorizontalLayoutNavigation<T>(
+        public void SetupHorizontalLayoutNavigation<T>(
             List<T> collection,
             Selectable onUp = null,
             Selectable onDown = null,
