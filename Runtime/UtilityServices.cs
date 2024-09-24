@@ -16,7 +16,7 @@ namespace DeiveEx.Utilities
         public static GameObjectService GameObjectService { get; } = new();
         public static PhysicsService PhysicsService { get; } = new();
         public static MathService MathService { get; } = new();
-        public static ReflectionService ReflectionService { get; }
+        public static ReflectionService ReflectionService { get; } = new();
         public static SystemService SystemService { get; } = new();
         public static ThreadingService ThreadingService { get; } = new();
         public static UiService UiService { get; } = new();
