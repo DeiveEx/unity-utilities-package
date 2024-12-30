@@ -20,6 +20,8 @@ namespace DeiveEx.Utilities
         [Min(0)] [SerializeField] private int _materialIndex;
         [Min(1)] [SerializeField] private int _rows = 1;
         [Min(1)] [SerializeField] private int _columns = 1;
+        [Tooltip("Should we change the texture scale/tiling along with the offset? If the UV expects a 100x100px texture but you're using a 200x100px texture, this option will change the tiling to be 2x1 so the UV coordinates are correctly placed")]
+        [SerializeField] private bool _updateTextureScale;
 #if ODIN_INSPECTOR
         [Title("Debug")]
         [PropertyRange(0, "@_rows - 1")]
@@ -96,7 +98,9 @@ namespace DeiveEx.Utilities
         private Material[] ChangeMaterial(Material[] materials, Vector2 offset, Vector2 scale)
         {
             materials[_materialIndex].mainTextureOffset = offset;
-            materials[_materialIndex].mainTextureScale = scale;
+            
+            if(_updateTextureScale)
+                materials[_materialIndex].mainTextureScale = scale;
 
             return materials;
         }
