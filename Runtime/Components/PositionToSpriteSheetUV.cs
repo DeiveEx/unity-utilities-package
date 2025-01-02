@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+#if ODIN_INSPECTOR
+using Sirenix.OdinInspector;
+#endif
+
 namespace DeiveEx.Utilities
 {
     [ExecuteAlways]
@@ -11,9 +15,33 @@ namespace DeiveEx.Utilities
 
         [SerializeField] private Transform _sourcePosition;
         [SerializeField] private SpriteSheetUVController _targetUV;
+        
+        [SerializeField] private bool _overrideRow = false;
+#if ODIN_INSPECTOR
+        [ShowIf("_overrideRow")]
+#endif
+        [SerializeField] private int _rowIndex = 0;
+#if ODIN_INSPECTOR
+        [BoxGroup("Row Settings", VisibleIf = "@!_overrideRow")]
+#endif
         [SerializeField] private VectorAxis _rowValue = VectorAxis.X;
+#if ODIN_INSPECTOR
+        [BoxGroup("Row Settings")]
+#endif
         [SerializeField] private float _rowMultiplier = 1;
+        
+        [SerializeField] private bool _overrideColumn = false;
+#if ODIN_INSPECTOR
+        [ShowIf("_overrideColumn")]
+#endif
+        [SerializeField] private int _columnIndex = 0;
+#if ODIN_INSPECTOR
+        [BoxGroup("Column Settings", VisibleIf = "@!_overrideColumn")]
+#endif
         [SerializeField] private VectorAxis _columnValue = VectorAxis.Y;
+#if ODIN_INSPECTOR
+        [BoxGroup("Column Settings")]
+#endif
         [SerializeField] private float _columnMultiplier = 1;
 
         private bool _isSourcePositionNull;
@@ -55,8 +83,14 @@ namespace DeiveEx.Utilities
         {
             Vector3 vector = _sourcePosition.localPosition;
 
-            int rowIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _rowValue) * _rowMultiplier);
-            int columnIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _columnValue) * _columnMultiplier);
+            int rowIndex = _rowIndex;
+            int columnIndex = _columnIndex;
+
+            if (_overrideRow)
+                rowIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _rowValue) * _rowMultiplier);
+
+            if (_overrideColumn)
+                columnIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _columnValue) * _columnMultiplier);
 
             _targetUV.SetSpriteIndex(rowIndex, columnIndex);
         }
