@@ -86,10 +86,10 @@ namespace DeiveEx.Utilities
             int rowIndex = _rowIndex;
             int columnIndex = _columnIndex;
 
-            if (_overrideRow)
+            if (!_overrideRow)
                 rowIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _rowValue) * _rowMultiplier);
 
-            if (_overrideColumn)
+            if (!_overrideColumn)
                 columnIndex = Mathf.RoundToInt(GetCorrectAxis(vector, _columnValue) * _columnMultiplier);
 
             _targetUV.SetSpriteIndex(rowIndex, columnIndex);
