@@ -7,6 +7,35 @@ namespace DeiveEx.Utilities
 {
     public class GameObjectService
     {
+        private static Transform _inactiveTransform;
+
+        /// <summary>
+        /// Returns an inactive transform. Useful for things like instantiating an active prefab in an inactive state,
+        /// which can't normally be done, but can be achieved if the object is instantiated as a child of an inactive object.
+        /// </summary>
+        public Transform GetInactiveParent()
+        {
+            if (_inactiveTransform != null)
+                return _inactiveTransform;
+            
+            var go = new GameObject("InactiveParent");
+            go.SetActive(false);
+            Object.DontDestroyOnLoad(go);
+            _inactiveTransform = go.transform;
+            return _inactiveTransform;
+        }
+
+        public T InstantiateInactiveObject<T>(T prefab) where T : Component
+        {
+            if (!prefab.gameObject.activeSelf)
+                return Object.Instantiate(prefab);
+            
+            var instance = Object.Instantiate(prefab, GetInactiveParent());
+            instance.gameObject.SetActive(false);
+            instance.transform.SetParent(null);
+            return instance;
+        }
+        
         public void DestroyAndClearGOList<T>(IList<T> listToClear) where T : Object
         {
             DestroyGOList(listToClear);
