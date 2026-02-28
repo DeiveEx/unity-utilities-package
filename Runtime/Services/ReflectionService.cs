@@ -48,5 +48,24 @@ namespace DeiveEx.Utilities
 
 			return fieldValueDictionary;
 		}
+		
+		public Type[] GetExplicitlyImplementedInterfaces(Type type)
+		{
+			if (type == null)
+				throw new ArgumentNullException(nameof(type));
+			
+			// Get the type interfaces
+			var allInterfaces = type.GetInterfaces();
+			
+			// Get the base type interfaces
+			var baseInterfaces = type.BaseType != null
+				? type.BaseType.GetInterfaces()
+				: Type.EmptyTypes;
+			
+			// Remove the base type interfaces from the interface array
+			return allInterfaces
+				.Except(baseInterfaces)
+				.ToArray();
+		}
 	}
 }
