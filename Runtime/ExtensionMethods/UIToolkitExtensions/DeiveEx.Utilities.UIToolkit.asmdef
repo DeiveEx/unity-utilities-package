@@ -13,6 +13,12 @@
     ],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.cysharp.r3",
+            "expression": "1.3.0",
+            "define": "R3_OBSERVABLES"
+        }
+    ],
     "noEngineReferences": false
 }

@@ -1,3 +1,4 @@
+#if R3_OBSERVABLES
 using R3;
 using UnityEngine.UIElements;
 
@@ -21,3 +22,4 @@ namespace DeiveEx.Utilities
         }
     }
 }
+#endif
