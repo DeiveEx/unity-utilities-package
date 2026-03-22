@@ -20,5 +20,6 @@ namespace DeiveEx.Utilities
         public static SystemService SystemService { get; } = new();
         public static ThreadingService ThreadingService { get; } = new();
         public static UiService UiService { get; } = new();
+        public static ApplicationService ApplicationService { get; } = new();
     }
 }
