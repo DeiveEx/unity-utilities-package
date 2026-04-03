@@ -20,6 +20,15 @@ namespace DeiveEx.Utilities
                 h => element.RegisterValueChangedCallback(h),
                 h => element.UnregisterValueChangedCallback(h));
         }
+
+        public static Observable<TEvent> OnCallbackAsObservable<TEvent>(this VisualElement element)
+            where TEvent : EventBase<TEvent>, new()
+        {
+            return Observable.FromEvent<EventCallback<TEvent>, TEvent>(
+                h => evt => h(evt),
+                h => element.RegisterCallback(h),
+                h => element.UnregisterCallback(h));
+        }
     }
 }
 #endif
