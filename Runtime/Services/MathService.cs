@@ -53,10 +53,10 @@ namespace DeiveEx.Utilities
             }
         }
         
-        public Vector3 QuadraticBezier (Vector3 p0, Vector3 p2, Vector3 middlePoint, float t) {
+        public Vector3 QuadraticBezier (Vector3 p1, Vector3 p2, Vector3 controlPoint, float t) {
             t = Mathf.Clamp01(t);
             float oneMinusT = 1f - t;
-            return oneMinusT * oneMinusT * p0 + 2f * oneMinusT * t * middlePoint + t * t * p2;
+            return oneMinusT * oneMinusT * p1 + 2f * oneMinusT * t * controlPoint + t * t * p2;
         }
     }
 }
